@@ -1,0 +1,417 @@
+:root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-2: #1a1a1a;
+    --border: #2a2a2a;
+    --border-bright: #3a3a3a;
+    --text-primary: #f0ede8;
+    --text-secondary: #8a8a8a;
+    --text-muted: #555;
+    --accent: #e8c547;
+    --accent-dim: rgba(232, 197, 71, 0.12);
+    --accent-dim2: rgba(232, 197, 71, 0.06);
+    --red: #e05c5c;
+    --red-dim: rgba(224, 92, 92, 0.1);
+    --green: #5ce0a0;
+    --green-dim: rgba(92, 224, 160, 0.1);
+    --blue: #5ca8e0;
+    --blue-dim: rgba(92, 168, 224, 0.1);
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: "DM Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(232, 197, 71, 0.06) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    animation: cardReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+article[data-testid="test-todo-card"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 28px;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+article[data-testid="test-todo-card"]:hover {
+    border-color: var(--border-bright);
+    box-shadow:
+        0 0 0 1px rgba(232, 197, 71, 0.08),
+        0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.card-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+}
+
+.checkbox-wrap {
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+input[type="checkbox"][data-testid="test-todo-complete-toggle"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-bright);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+    position: relative;
+}
+
+input[type="checkbox"][data-testid="test-todo-complete-toggle"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+input[type="checkbox"][data-testid="test-todo-complete-toggle"]:hover {
+    border-color: var(--accent);
+}
+
+input[type="checkbox"][data-testid="test-todo-complete-toggle"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+input[type="checkbox"][data-testid="test-todo-complete-toggle"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: 2px solid #0a0a0a;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+.title-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+h2[data-testid="test-todo-title"] {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    transition: color 0.3s ease;
+    word-break: break-word;
+}
+
+article.done h2[data-testid="test-todo-title"] {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+span[data-testid="test-todo-priority"] {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.priority {
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid rgba(224, 92, 92, 0.2);
+}
+
+p[data-testid="test-todo-description"] {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    font-weight: 300;
+}
+
+.card-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 20px;
+}
+
+.card-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.meta-block {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.meta-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+time[data-testid="test-todo-due-date"] {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    display: block;
+}
+
+span[data-testid="test-todo-time-remaining"] {
+    font-size: 13px;
+    font-weight: 500;
+    display: block;
+}
+
+.time-overdue {
+    color: var(--red);
+}
+.time-soon {
+    color: var(--accent);
+}
+.time-ok {
+    color: var(--green);
+}
+
+.status-row {
+    margin-bottom: 20px;
+}
+
+span[data-testid="test-todo-status"] {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+span[data-testid="test-todo-status"]::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+}
+
+.status-inprogress {
+    background: var(--blue-dim);
+    color: var(--blue);
+    border: 1px solid rgba(92, 168, 224, 0.2);
+}
+
+.status-done {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(92, 224, 160, 0.2);
+}
+
+ul[data-testid="test-todo-tags"] {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+ul[data-testid="test-todo-tags"] li {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    background: var(--accent-dim2);
+    color: var(--accent);
+    border: 1px solid rgba(232, 197, 71, 0.15);
+    transition: background 0.2s ease;
+}
+
+ul[data-testid="test-todo-tags"] li:hover {
+    background: var(--accent-dim);
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.card-actions button {
+    flex: 1;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.card-actions button:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+button[data-testid="test-todo-edit-button"] {
+    background: var(--surface-2);
+    color: var(--text-secondary);
+}
+
+button[data-testid="test-todo-edit-button"]:hover {
+    background: var(--border);
+    color: var(--text-primary);
+    border-color: var(--border-bright);
+}
+
+button[data-testid="test-todo-delete-button"] {
+    background: var(--red-dim);
+    color: var(--red);
+    border-color: rgba(224, 92, 92, 0.2);
+}
+
+button[data-testid="test-todo-delete-button"]:hover {
+    background: rgba(224, 92, 92, 0.2);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 480px) {
+    article[data-testid="test-todo-card"] {
+        padding: 28px;
+    }
+    .card-meta {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    h2[data-testid="test-todo-title"] {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 360px) {
+    .card-header {
+        flex-wrap: wrap;
+    }
+}
