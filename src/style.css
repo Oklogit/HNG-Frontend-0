@@ -16,6 +16,7 @@
     --green-dim: rgba(92, 224, 160, 0.1);
     --blue: #5ca8e0;
     --blue-dim: rgba(92, 168, 224, 0.1);
+    color: var(--text-primary);
 }
 
 *,
@@ -92,10 +93,41 @@ article[data-testid="test-todo-card"] {
     border-radius: 16px;
     overflow: hidden;
     padding: 28px;
-
     transition:
         border-color 0.3s ease,
         box-shadow 0.3s ease;
+}
+.edit-form {
+    visibility: hidden;
+    position: absolute;
+    top: 0%;
+    height: 100%;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.edit-form > div > label {
+    width: fit-content;
+    border: none;
+    background-color: transparent;
+}
+.edit-form > div :not(.card-actions) {
+    display: flex;
+    width: 100%;
+    min-height: 30px;
+    font-size: large;
+    flex-direction: column;
+}
+.edit-form > div > * {
+    color: var(--text-primary);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
 }
 
 article[data-testid="test-todo-card"]:hover {
@@ -209,7 +241,7 @@ span[data-testid="test-todo-priority"] {
     flex-shrink: 0;
 }
 
-.priority {
+#priority {
     background: var(--red-dim);
     color: var(--red);
     border: 1px solid rgba(224, 92, 92, 0.2);
@@ -222,7 +254,26 @@ p[data-testid="test-todo-description"] {
     margin-bottom: 24px;
     font-weight: 300;
 }
+.collapsed {
+    max-height: 60px;
+    overflow: hidden;
+    position: relative;
+}
 
+#toggle-btn {
+    color: var(--text-primary);
+    text-decoration: none;
+    margin-top: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.collapsed {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+}
 .card-divider {
     height: 1px;
     background: var(--border);
@@ -312,6 +363,28 @@ span[data-testid="test-todo-status"]::before {
     color: var(--green);
     border: 1px solid rgba(92, 224, 160, 0.2);
 }
+.status-pending {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(232, 197, 71, 0.2);
+}
+
+#status-control {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+}
+.overdue-indicator {
+    visibility: hidden;
+    text-decoration: solid;
+    background: var(--red-dim);
+    font-size: large;
+    color: var(--red);
+    /* float: right; */
+    right: 2px;
+    padding: 3px;
+    border: double var(--red) 10px;
+}
 
 ul[data-testid="test-todo-tags"] {
     list-style: none;
@@ -364,18 +437,23 @@ ul[data-testid="test-todo-tags"] li:hover {
     outline-offset: 2px;
 }
 
-button[data-testid="test-todo-edit-button"] {
-    background: var(--surface-2);
-    color: var(--text-secondary);
+button[data-testid="test-todo-edit-button"],
+button[data-testid="test-todo-save-button"] {
+    background: var(--blue-dim);
+    color: var(--blue);
 }
 
 button[data-testid="test-todo-edit-button"]:hover {
-    background: var(--border);
+    background: #12046c;
     color: var(--text-primary);
-    border-color: var(--border-bright);
+    border: 1px solid var(--border-bright);
 }
-
-button[data-testid="test-todo-delete-button"] {
+textarea {
+    resize: vertical;
+    flex-grow: 1;
+}
+button[data-testid="test-todo-delete-button"],
+button[data-testid="test-todo-cancel-button"] {
     background: var(--red-dim);
     color: var(--red);
     border-color: rgba(224, 92, 92, 0.2);
