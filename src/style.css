@@ -89,6 +89,7 @@ body::after {
 
 article[data-testid="test-todo-card"] {
     background: var(--surface);
+    position: relative;
     border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
@@ -102,6 +103,7 @@ article[data-testid="test-todo-card"] {
     position: absolute;
     top: 0%;
     height: 100%;
+    left: 0%;
     width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
